@@ -7,7 +7,9 @@ from app.repositories.user_repository import UserRepository
 from app.services.auth import AuthService
 from app.schemas.auth import UserCreate, Token
 
+
 router = APIRouter()
+
 
 @router.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
@@ -23,19 +25,15 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     role = auth_service.get_user_role(form_data.username)
     
     access_token = user.username  # Для примера используется username как токен, замените на реальный токен
-
+    print(role)
     if role == "admin":
         return {"access_token": access_token, "token_type": "bearer", "redirect_url": "/admin/dashboard"}
-    elif role == "user":
+    elif role == "executor":
         return {"access_token": access_token, "token_type": "bearer", "redirect_url": "/user/home"}
     else:
         return {"access_token": access_token, "token_type": "bearer", "redirect_url": "/unknown"}
 
 
 
-@router.post("/users/", response_model=UserCreate)
-async def create_user(user_create: UserCreate, role: str, db: Session = Depends(get_db)):
-    user_repo = UserRepository(db)
-    auth_service = AuthService(user_repo)
-    db_user = auth_service.create_user(user_create, role)
-    return db_user
+
+

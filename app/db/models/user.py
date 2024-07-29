@@ -14,6 +14,8 @@ class User(Base):
 
     role = relationship("Role", back_populates="users")
 
+
+
 class Role(Base):
     __tablename__ = 'role'
     
@@ -21,3 +23,6 @@ class Role(Base):
     role = Column(String, unique=True, index=True)
 
     users = relationship("User", back_populates="role")
+
+    def __str__(self):
+        return self.role

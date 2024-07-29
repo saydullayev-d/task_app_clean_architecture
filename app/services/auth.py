@@ -21,12 +21,9 @@ class AuthService:
             return None
         return user
 
-    def create_user(self, user_create: UserCreate, role: str) -> User:
+    def create_user(self, user_create: UserCreate) -> User:
         hashed_password = self.get_password_hash(user_create.password)
-        role_obj = self.user_repo.get_role(role)
-        if not role_obj:
-            role_obj = self.user_repo.create_role(role)
-        return self.user_repo.create_user(user_create.username, hashed_password, role_obj.id)
+        return self.user_repo.create_user(user_create.username, hashed_password, user_create.role_id)
     
     def get_user_role(self, username: str) -> str:
         user = self.user_repo.get_user_by_username(username)

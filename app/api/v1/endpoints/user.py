@@ -4,24 +4,22 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from app.db.models.user import User  # Import User model
 from app.repositories.interfaces import IUserRepository
+from app.repositories.user_repository import UserRepository
+from app.services.auth import AuthService
+from app.db.session import get_db
 from app.dependencies import get_user_repository
+from app.schemas.auth import UserCreate
 
 router = APIRouter()
 
 # Define the password context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-class UserCreate(BaseModel):
-    username: str
-    password: str
-    role: int
 
-@router.post("/users/")
-async def create_new_user(user: UserCreate, user_repo: IUserRepository = Depends(get_user_repository)):
-    db_user = user_repo.get_user_by_username(user.username)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
-    
-    hashed_password = pwd_context.hash(user.password)
-    new_user = User(username=user.username, hashed_password=hashed_password, role_id=user.role)
-    return user_repo.create_user(new_user)
+@router.post("/users/", response_model=UserCreate)
+async def create_user(user_create: UserCreate, db: Session = Depends(get_db)):
+    user_repo = UserRepository(db)
+    auth_service = AuthService(user_repo)
+    db_user = auth_service.create_user(user_create)
+    return UserCreate(username=db_user.username, password=user_create.password, role_id=db_user.role_id)
+
