@@ -2,8 +2,7 @@ from sqlalchemy import Column, Integer, BigInteger, String, ForeignKey, Sequence
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
-
-Base = declarative_base()
+from .base import Base
 
 class Order(Base):
     __tablename__ = 'orders'
@@ -14,8 +13,13 @@ class Order(Base):
     status = Column(String(50), nullable=True)
     count = Column(BigInteger)
     date = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    client_id = Column(Integer, ForeignKey("clients.id"))
+    user_id = Column(Integer, ForeignKey('user.id'))  # Убедитесь, что это имя правильно
 
+    client = relationship("Client", back_populates="order")
     files = relationship("OrdersFiles", back_populates="order")
+    user = relationship("User", back_populates="orders")  # Исправлено на "orders"
+
 
 class OrdersFiles(Base):
     __tablename__ = 'orders_files'

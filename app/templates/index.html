@@ -5,123 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная</title>
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
-}
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
 
-#sidebar {
-    background-color: #343a40;
-    min-height: 100vh;
-}
+        #sidebar {
+            background-color: #343a40;
+            min-height: 100vh;
+        }
 
-#sidebar .nav-link {
-    color: #ffffff;
-    transition: color 0.2s;
-}
+        #sidebar .nav-link {
+            color: #ffffff;
+            transition: color 0.2s;
+        }
 
-#sidebar .nav-link:hover {
-    color: #15c9d6;
-}
+        #sidebar .nav-link:hover {
+            color: #15c9d6;
+        }
 
-#sidebar .nav-link.active {
-    background-color: #15c9d6;
-    color: #343a40;
-}
+        #sidebar .nav-link.active {
+            background-color: #15c9d6;
+            color: #343a40;
+        }
 
-.accordion-button {
-    background-color: #ffffff;
-    color: #343a40;
-}
+        .accordion-button {
+            background-color: #ffffff;
+            color: #343a40;
+        }
 
-.accordion-button:not(.collapsed) {
-    background-color: #15c9d6;
-    color: #ffffff;
-}
+        .accordion-button:not(.collapsed) {
+            background-color: #15c9d6;
+            color: #ffffff;
+        }
 
-.card {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-}
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
 
-.card:hover {
-    transform: scale(1.02);
-    cursor: pointer;
-}
+        .card:hover {
+            transform: scale(1.02);
+            cursor: pointer;
+        }
 
-.card-header {
-    background-color: #15c9d6;
-    color: #ffffff;
-    font-weight: bold;
-}
+        .card-header {
+            background-color: #15c9d6;
+            color: #ffffff;
+            font-weight: bold;
+        }
 
-.card-body {
-    background-color: #ffffff;
-}
+        .card-body {
+            background-color: #ffffff;
+        }
 
-.card-footer {
-    background-color: #f1f1f1;
-}
+        .card-footer {
+            background-color: #f1f1f1;
+        }
 
-.button-container {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding-top: 10px;
-}
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 10px;
+        }
 
-.btn-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    padding: 0;
-    font-size: 14px;
-    border-radius: 0;
-}
+        .btn-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            font-size: 14px;
+            border-radius: 0;
+        }
 
-.alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1050;
-    display: none;
-}
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            display: none;
+        }
 
-.modal-footer .btn-primary {
-    background-color: #343a40;
-    border-color: #343a40;
-    color: #ffffff;
-    transition: background-color 0.2s, border-color 0.2s;
-}
+        .modal-footer .btn-primary {
+            background-color: #343a40;
+            border-color: #343a40;
+            color: #ffffff;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
 
-.modal-footer .btn-primary:hover {
-    background-color: #15c9d6;
-    border-color: #15c9d6;
-    color: #343a40;
-}
+        .modal-footer .btn-primary:hover {
+            background-color: #15c9d6;
+            border-color: #15c9d6;
+            color: #343a40;
+        }
 
-/* Кнопка "Открыть форму" в стиле sidebar */
-.btn-sidebar {
-    background-color: #343a40;
-    border-color: #343a40;
-    color: #ffffff;
-    transition: background-color 0.2s, border-color 0.2s;
-    width: 100%;
-    text-align: left;
-}
+        /* Кнопка "Открыть форму" в стиле sidebar */
+        .btn-sidebar {
+            background-color: #343a40;
+            border-color: #343a40;
+            color: #ffffff;
+            transition: background-color 0.2s, border-color 0.2s;
+            width: 100%;
+            text-align: left;
+        }
 
-.btn-sidebar:hover {
-    background-color: #15c9d6;
-    border-color: #15c9d6;
-    color: #343a40;
-}
-
+        .btn-sidebar:hover {
+            background-color: #15c9d6;
+            border-color: #15c9d6;
+            color: #343a40;
+        }
     </style>
 </head>
 <body>
@@ -131,7 +130,7 @@
                 <div class="position-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/">Главная</a>
+                            <a class="nav-link active" href="/admin/dashboard">Главная</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#ordersSubmenu" data-bs-toggle="collapse" aria-expanded="false">Задачи</a>
@@ -236,222 +235,126 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="accordion my-4" id="accordionDone">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingDone">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDone" aria-expanded="false" aria-controls="collapseDone">
+                                Завершенные
+                            </button>
+                        </h2>
+                        <div id="collapseDone" class="accordion-collapse collapse" aria-labelledby="headingDone" data-bs-parent="#accordionDone">
+                            <div class="accordion-body">
+                                <div class="row row-cols-1 row-cols-md-3 g-4">
+                                    {% for item in items_done %}
+                                    <div class="col">
+                                        <div class="card" data-href="{{ url_for('task_detail', task_id=item.order_id) }}">
+                                            <div class="card-header">{{ item.org_name }}
+                                                <div class="col text-right">
+                                                    <p class="d-inline text-right">{{ item.date }} {{ item.time }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">{{ item.description }}</div>
+                                            <div class="card-footer text-muted">
+                                                Прикреплённых файлов: {{ item.files }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
-    <div class="alert alert-success" role="alert" id="statusAlert">
-        Статус успешно обновлён!
-    </div>
+
     <!-- Модальное окно -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Форма для ввода данных</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить пользователя</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="userForm">
+                    <!-- Здесь разместите форму для добавления пользователя -->
+                    <form id="addUserForm">
                         <div class="mb-3">
-                            <label for="nameInput" class="form-label">Имя</label>
-                            <input type="text" class="form-control" id="nameInput" name="name" placeholder="Введите имя" required>
-                            <div class="invalid-feedback">Пожалуйста, введите имя.</div>
+                            <label for="username" class="form-label">Имя пользователя</label>
+                            <input type="text" class="form-control" id="username" required>
                         </div>
                         <div class="mb-3">
-                            <label for="passInput" class="form-label">Пароль</label>
-                            <input type="password" class="form-control" id="passInput" name="password" placeholder="Введите пароль" required>
-                            <div class="invalid-feedback">Пожалуйста, введите пароль.</div>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
                         </div>
                         <div class="mb-3">
-                            <label for="passSecondInput" class="form-label">Повторите пароль</label>
-                            <input type="password" class="form-control" id="passSecondInput" placeholder="Введите пароль повторно" required>
-                            <div class="invalid-feedback">Пароли не совпадают.</div>
+                            <label for="password" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="password" required>
                         </div>
                         <div class="mb-3">
-                            <label for="roleSelect" class="form-label">Роль</label>
-                            <select class="form-select" id="roleSelect" name="role" required>
-                                <option value="" selected>Выберите роль</option>
-                                <option value="1">Администратор</option>
-                                <option value="2">Исполнитель</option>
-                                <option value="3">Заказчик</option>
+                            <label for="role" class="form-label">Роль</label>
+                            <select class="form-select" id="role" required>
+                                <option value="admin">Администратор</option>
+                                <option value="user">Пользователь</option>
                             </select>
-                            <div class="invalid-feedback">Пожалуйста, выберите роль.</div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary" id="saveButton">Сохранить изменения</button>
+                    <button type="button" class="btn btn-primary" id="saveUserButton">Сохранить</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Обработчики для ссылок в боковом меню
-            document.querySelectorAll('#sidebar .nav-link').forEach(function(link) {
-                link.addEventListener('click', function() {
-                    document.querySelector('#sidebar .nav-link.active').classList.remove('active');
-                    this.classList.add('active');
-                });
+        $(document).ready(function () {
+            // Обработка кликов по карточкам
+            $('.card').on('click', function () {
+                window.location.href = $(this).data('href');
             });
-    
-            // Обработчики для подменю задач
-            document.querySelectorAll('#ordersSubmenu .nav-link').forEach(function(link) {
-                link.addEventListener('click', function() {
-                    document.querySelector('#ordersSubmenu .nav-link.active').classList.remove('active');
-                    this.classList.add('active');
-                });
-            });
-    
-            // Обработчики для кнопок изменения статуса
-            document.querySelectorAll('.btn-icon').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    let orderId = this.getAttribute('data-order-id');
-                    let status = this.getAttribute('data-status');
-                    updateStatus(orderId, status);
-                });
-            });
-    
-            // Обработчики для карточек задач
-            document.querySelectorAll('.card').forEach(function(card) {
-                card.addEventListener('click', function(event) {
-                    if (!event.target.closest('.btn-icon')) {
-                        window.location.href = this.getAttribute('data-href');
+
+            // Обработка кнопок "Взять в работу" и "Отклонить"
+            $('.btn-icon').on('click', function () {
+                const orderId = $(this).data('order-id');
+                const status = $(this).data('status');
+
+                $.ajax({
+                    url: `/update_order/${orderId}/${status}`,
+                    method: 'POST',
+                    success: function (response) {
+                        // Обновление UI или отображение уведомления
+                        alert('Статус обновлен!');
+                        location.reload();  // Перезагрузка страницы
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Ошибка при обновлении статуса');
                     }
                 });
             });
-    
-            // Удаление классов is-invalid при изменении полей формы
-            const nameInput = document.getElementById('nameInput');
-            const passInput = document.getElementById('passInput');
-            const passSecondInput = document.getElementById('passSecondInput');
-            const roleSelect = document.getElementById('roleSelect');
-    
-            nameInput.addEventListener('input', function() {
-                if (nameInput.value.trim() !== '') {
-                    nameInput.classList.remove('is-invalid');
-                }
-            });
-    
-            passInput.addEventListener('input', function() {
-                if (passInput.value.trim() !== '') {
-                    passInput.classList.remove('is-invalid');
-                }
-            });
-    
-            passSecondInput.addEventListener('input', function() {
-                if (passSecondInput.value.trim() === passInput.value) {
-                    passSecondInput.classList.remove('is-invalid');
-                }
-            });
-    
-            roleSelect.addEventListener('change', function() {
-                if (roleSelect.value !== '') {
-                    roleSelect.classList.remove('is-invalid');
-                }
-            });
-    
-            // Обработчик нажатия кнопки "Сохранить изменения"
-            document.querySelector('.modal-footer .btn-primary').addEventListener('click', async function() {
-                // Проверьте все поля формы на наличие ошибок
-                if (nameInput.value.trim() === '') {
-                    nameInput.classList.add('is-invalid');
-                }
-                if (passInput.value.trim() === '') {
-                    passInput.classList.add('is-invalid');
-                }
-                if (passSecondInput.value.trim() === '' || passSecondInput.value !== passInput.value) {
-                    passSecondInput.classList.add('is-invalid');
-                }
-                if (roleSelect.value === '') {
-                    roleSelect.classList.add('is-invalid');
-                }
-    
-                // Если есть ошибки, не отправляйте форму
-                if (document.querySelectorAll('.is-invalid').length > 0) {
-                    return;
-                }
-    
-                // Сформируйте данные для отправки
-                const formData = {
-                    username: nameInput.value,
-                    password: passInput.value,
-                    role_id: parseInt(roleSelect.value, 10) 
-                };
-                
-                console.log(formData);
-    
-                // Отправьте запрос на сервер
-                try {
-                    const response = await fetch('/api/v1/users/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    });
-    
-                    if (response.ok) {
-                        const result = await response.json();
-                        // Показать уведомление об успешном обновлении статуса
-                        showAlert('Пользователь успешно создан!', 'success');
-                        
-                        // Очистить форму
-                        document.getElementById('userForm').reset();
-                        
-                        // Закрыть модальное окно
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
-                        modal.hide();
-                    } else {
-                        const errorData = await response.json();
-                        // Показать уведомление об ошибке
-                        showAlert(`Ошибка: ${errorData.detail}`, 'danger');
+
+            // Обработка кнопки "Сохранить" в модальном окне
+            $('#saveUserButton').on('click', function () {
+                const form = $('#addUserForm');
+                $.ajax({
+                    url: '/users/',
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        alert('Пользователь добавлен!');
+                        $('#exampleModal').modal('hide');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Ошибка при добавлении пользователя');
                     }
-                } catch (error) {
-                    // Показать уведомление об ошибке
-                    showAlert(`Ошибка: ${error.message}`, 'danger');
-                }
+                });
             });
         });
-    
-        function showAlert(message, type) {
-            const alertBox = document.getElementById('statusAlert');
-            alertBox.textContent = message;
-            alertBox.classList.remove('alert-success', 'alert-danger');
-            alertBox.classList.add(`alert-${type}`);
-            alertBox.style.display = 'block';
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 3000);
-        }
-    
-        function updateStatus(orderId, status) {
-            fetch(`/api/v1/orders/${orderId}/status`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ status: status })
-            })
-            .then(response => {
-                if (response.ok) {
-                    showAlert('Статус успешно обновлён!', 'success');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
-                } else {
-                    showAlert('Ошибка при обновлении статуса.', 'danger');
-                }
-            })
-            .catch(error => {
-                showAlert('Ошибка: ' + error.message, 'danger');
-            });
-        }
     </script>
-    
 </body>
 </html>

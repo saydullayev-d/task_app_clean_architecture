@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from sqlalchemy.orm import Session
 from app.db.models.user import User, Role
 
@@ -8,13 +8,19 @@ class UserRepository:
 
     def get_user(self, username: str) -> User | None:
         return self.db.query(User).filter(User.username == username).first()
+    
+    def get_users(self) -> List[User]:
+        return self.db.query(User).filter(User.role_id==2).all()
 
     def create_user(self, username: str, hashed_password: str, role_id: int) -> User:
-        db_user = User(username=username, hashed_password=hashed_password, role_id=role_id)
-        self.db.add(db_user)
-        self.db.commit()
-        self.db.refresh(db_user)
-        return db_user
+        if not self.get_user(username):
+            db_user = User(username=username, hashed_password=hashed_password, role_id=role_id)
+            self.db.add(db_user)
+            self.db.commit()
+            self.db.refresh(db_user)
+            return db_user
+        else:
+            return self.get_user(username)
 
     def get_role(self, role: str) -> Role | None:
         return self.db.query(Role).filter(Role.role == role).first()

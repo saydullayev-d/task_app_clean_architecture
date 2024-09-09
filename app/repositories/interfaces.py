@@ -14,6 +14,10 @@ class IUserRepository(ABC):
     def create_user(self, user: User) -> User:
         pass
 
+    @abstractmethod
+    def get_users(self) -> List[User]:
+        pass
+
 class IOrderRepository(ABC):
 
     @abstractmethod
@@ -34,9 +38,29 @@ class IOrderRepository(ABC):
 
     def get_client_by_tg_id(self, tg_id: str) -> Client:
         raise NotImplementedError
+    
+    @abstractmethod
+    def get_client_order(self, client: Client) -> Optional[Order]:
+        pass
+
+    @abstractmethod
+    def update_order_executor(self, order_id:int, user_id:int) -> Optional[Order]:
+        pass
+
+    @abstractmethod
+    def get_uer_order(self, user_id: int) -> List[Order]:
+        pass
 
 class IClientRepository(ABC):
 
     @abstractmethod
     def get_client_by_tg_id(self, name: str) -> Client:
+        pass
+
+    @abstractmethod 
+    def get_client_by_id(self, client_id: int) -> Client:
+        pass
+
+    @abstractmethod
+    def add_client(self, client: Client) -> Client:
         pass

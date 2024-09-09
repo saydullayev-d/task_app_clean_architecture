@@ -7,7 +7,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', path='css/card_style.css') }}">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <style>
     body {
       background-color: #f8f9fa;
@@ -43,7 +43,7 @@
       <div class="position-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="/">Главная</a>
+            <a class="nav-link active" href="/admin/dashboard">Главная</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Клиенты</a>
@@ -61,8 +61,10 @@
               <div class="col">
                 <h4 class="card-title d-inline">Заказ №{{ order_num }}</h4>
                 <p class="card-text"><strong>Статус: </strong>{{ order.status }}</p>
+                
               </div>
               <div class="col text-right">
+                <p class="card-text"><strong>Испольнитель: </strong>{{ user }}</p>
                 <p class="text-muted d-inline">{{ date }} {{ time }}</p>
               </div>
             </div>
@@ -87,9 +89,15 @@
               {% endfor %}
             </p>
             <div class="row">
-              <a href="#" class="col btn btn-primary update-status-btn" data-status="В работе" data-order-id="{{ order.id }}" style="margin: 5px;">Взять в работу</a>
-              <a href="#" class="col btn btn-danger update-status-btn" data-status="Отклонено" data-order-id="{{ order.id }}" style="margin: 5px;">Отменить</a>
-              <a href="#" class="col btn btn-secondary" style="margin: 5px;">Ответить</a>
+              {% if order.status == "В обработке" %}
+                <a href="#" class="col btn btn-primary update-status-btn" data-status="В работе" data-order-id="{{ order.id }}" style="margin: 5px;" data-toggle="modal" data-target="#exampleModal">Взять в работу</a>
+                <a href="#" class="col btn btn-danger update-status-btn" data-status="Отклонено" data-order-id="{{ order.id }}" style="margin: 5px;">Отменить</a>
+                <a href="#" class="col btn btn-secondary" style="margin: 5px;">Ответить</a>
+              {% elif order.status == "В работе" %}
+                <a href="#" class="col btn btn-primary put-to-work-btn" data-order-id="{{ order.id }}" data-toggle="modal" data-target="#exampleModal" style="margin: 5px;">Передать в работу</a>
+                <a href="#" class="col btn btn-danger update-status-btn" data-status="Отклонено" data-order-id="{{ order.id }}" style="margin: 5px;">Отменить</a>
+                <a href="#" class="col btn btn-secondary" style="margin: 5px;">Ответить</a>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -100,19 +108,49 @@
       </button>
     </div>
   </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Передача задачи</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="transferForm">
+            <input type="hidden" id="hiddenOrderId" name="orderId">
+            <div class="form-group">
+              <label for="userSelect">Выберите пользователя</label>
+              <select class="form-control" id="userSelect" name="selectedUser">
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      
       document.querySelectorAll('#sidebar .nav-link').forEach(function (link) {
-                link.addEventListener('click', function () {
-                    document.querySelector('#sidebar .nav-link.active').classList.remove('active');
-                    this.classList.add('active');
-                });
-            });
+        link.addEventListener('click', function () {
+          document.querySelector('#sidebar .nav-link.active').classList.remove('active');
+          this.classList.add('active');
+        });
+      });
+
       // Функция для обновления статуса заказа
       $('.update-status-btn').on('click', function(event) {
         event.preventDefault();
@@ -121,24 +159,44 @@
         const status = $(this).data('status');
 
         if (status === 'Отклонено') {
-          Swal.fire({
-            title: 'Подтверждение',
-            text: 'Вы действительно хотите отменить заказ?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Да, отменить',
-            cancelButtonText: 'Нет'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              updateOrderStatus(orderId, status);
-            }
-          });
+          if (confirm('Вы действительно хотите отменить заказ?')) {
+            updateOrderStatus(orderId, status);
+          }
         } else {
           updateOrderStatus(orderId, status);
         }
       });
+
+      // Обработка открытия модального окна и установки orderId в скрытое поле
+      $('.put-to-work-btn').on('click', function() {
+        const orderId = $(this).data('order-id');
+        $('#hiddenOrderId').val(orderId);
+      });
+
+      // Обработка отправки формы в модальном окне
+      $('#transferForm').on('submit', function(event) {
+        event.preventDefault();
+
+        const selectedUser = $('#userSelect').val();
+        const orderId = $('#hiddenOrderId').val(); // Получаем orderId из скрытого поля
+
+        $.ajax({
+          url: `/api/v1/order/${orderId}/${selectedUser}`,
+          type: 'PUT',
+          success: function(response) {
+            toastr.success('Задача успешно передана пользователю.');
+            setTimeout(function() {
+              location.reload(); // Обновление страницы через небольшую задержку
+            }, 1500);
+          },
+          error: function(xhr, status, error) {
+            toastr.error('Ошибка при передаче задачи: ' + xhr.responseText);
+          }
+        });
+      });
     });
 
+    // Функция для обновления статуса заказа
     function updateOrderStatus(orderId, status) {
       $.ajax({
         url: `/api/v1/orders/${orderId}/status`,
@@ -146,20 +204,13 @@
         contentType: 'application/json',
         data: JSON.stringify({ status: status }),
         success: function(response) {
-          Swal.fire(
-            'Успех!',
-            'Статус заказа успешно обновлен на: ' + status,
-            'success'
-          ).then(() => {
-            location.reload();
-          });
+          toastr.success('Статус заказа успешно обновлен на: ' + status);
+          setTimeout(function() {
+              location.reload(); // Обновление страницы через небольшую задержку
+            }, 1500);
         },
         error: function(xhr, status, error) {
-          Swal.fire(
-            'Ошибка!',
-            'Ошибка при обновлении статуса заказа: ' + xhr.responseText,
-            'error'
-          );
+          toastr.error('Ошибка при обновлении статуса заказа: ' + xhr.responseText);
         }
       });
     }

@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from sqlalchemy.orm import relationship
+from .base import Base
 
 class Client(Base):
     __tablename__ = 'clients'
@@ -12,3 +12,8 @@ class Client(Base):
     inn = Column(String(100), nullable=True)
     organization_name = Column(String(150), nullable=True)
     tg_id = Column(Integer)
+
+    user_id = Column(Integer, ForeignKey("user.id"))
+
+    user = relationship("User", back_populates="clients")  # Используем строку "User"
+    order = relationship("Order", back_populates="client")

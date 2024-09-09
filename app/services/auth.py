@@ -30,3 +30,5 @@ class AuthService:
         if user and user.role:
             return user.role.role
         return "unknown"
+    
+

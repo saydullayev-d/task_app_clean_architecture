@@ -2,20 +2,22 @@
 from sqlalchemy.orm import Session
 from app.repositories.order_repository import OrderRepository
 from app.repositories.client_repository import ClientRepository
+from app.repositories.user_repository import UserRepository
 from app.utils.date_utils import format_datetime, format_time
 import os
 
 class OrderService:
-    def __init__(self, order_repository: OrderRepository, client_repository: ClientRepository):
+    def __init__(self, order_repository: OrderRepository, client_repository: ClientRepository, user_repository: UserRepository):
         self.order_repository = order_repository
         self.client_repository = client_repository
+        self.user_repository = user_repository
 
     def get_order_detail(self, order_id: int) -> dict:
         orders = self.order_repository.get_orders()
         order = self.order_repository.get_order_by_id(order_id)
         if not order:
             raise ValueError("Order not found")
-
+        users = self.user_repository.get_users()
         order_num = orders.index(order) + 1
         client_name = self.client_repository.get_client_by_tg_id(order.name)
         folder_path = f"./{order.name}/{order.count}"
@@ -31,4 +33,7 @@ class OrderService:
             "order_num": order_num,
             "date": format_datetime(order.date),
             "time": format_time(order.date),
+            "users": users,
+            "client_id": order.client_id,
+            "user": order.user.username
         }

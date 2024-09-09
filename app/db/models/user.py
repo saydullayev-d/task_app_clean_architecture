@@ -1,28 +1,19 @@
-# app/db/models/user.py
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-
-Base = declarative_base()
+from .base import Base
+from .role import Role
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = "user"  # Проверьте, если это название соответствует в базе данных
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
+    role_id = Column(Integer, ForeignKey("role.id"))  # Убедитесь, что это имя правильно
     hashed_password = Column(String)
-    role_id = Column(Integer, ForeignKey("role.id"))
+    is_active = Column(Boolean, default=True, nullable=False)
+    is_superuser = Column(Boolean, default=False, nullable=False)
+    is_verified = Column(Boolean, default=False, nullable=False)
+    email = Column(String, nullable=False)
 
-    role = relationship("Role", back_populates="users")
-
-
-
-class Role(Base):
-    __tablename__ = 'role'
-    
-    id = Column(Integer, primary_key=True, index=True)
-    role = Column(String, unique=True, index=True)
-
-    users = relationship("User", back_populates="role")
-
-    def __str__(self):
-        return self.role
+    role = relationship("Role", back_populates="user")
+    clients = relationship("Client", back_populates="user")
+    orders = relationship("Order", back_populates="user")  # Исправлено с "order" на "orders"

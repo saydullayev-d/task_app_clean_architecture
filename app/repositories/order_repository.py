@@ -17,9 +17,12 @@ class OrderRepository(IOrderRepository):
 
     def create_order(self, order: Order) -> Order:
         self.db.add(order)
-        self.db.commit()
+        self.db.commit() 
         self.db.refresh(order)
         return order
+    
+    def get_client_order(self, client: Client) -> Order:
+        return self.db.query(Order).filter(Order.client_id == client.id).all()
 
     def update_order_status(self, order_id: int, status: str) -> Optional[Order]:
         order = self.db.query(Order).filter(Order.id == order_id).first()
@@ -28,6 +31,17 @@ class OrderRepository(IOrderRepository):
             self.db.commit()
             self.db.refresh(order)
         return order
-    
+        
+    def update_order_executor(self, order_id: int, user_id: int) -> Optional[Order]:
+        order = self.db.query(Order).filter(Order.id == order_id).first()
+        if order:
+            order.user_id = user_id
+            self.db.commit()
+            self.db.refresh(order)
+        return order
+
     def get_client_by_tg_id(self, tg_id: str) -> Client:
         return self.db.query(Client).filter(Client.tg_id == tg_id).first()
+    
+    def get_uer_order(self, user_id: int) -> List[Order]:
+        return self.db.query(Order).filter(Order.user_id == user_id).all()
